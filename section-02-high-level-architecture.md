@@ -145,3 +145,219 @@
 
 **Answer: C**
 *Organizations provide hard isolation. Each org has its own users, teams, roles, gateways, portals, and configuration — completely separate from other orgs.*
+
+---
+
+## Q13. What is the primary responsibility of the Data Plane in a Konnect hybrid deployment?
+
+**A)** Storing and versioning all gateway configuration
+**B)** Serving as the runtime proxy that intercepts API requests, applies plugin policies, and forwards traffic to upstream services
+**C)** Hosting the Konnect management UI and API
+**D)** Managing user authentication for the organization
+
+**Answer: B**
+*The Data Plane is the runtime execution layer. It handles every live API request — applying auth, rate limiting, transformations, and routing at the point of traffic entry.*
+
+---
+
+## Q14. In the context of Konnect architecture, what is the significance of "configuration propagation"?
+
+**A)** It refers to the process of deploying gateway nodes to new cloud regions
+**B)** It is the mechanism by which the Control Plane pushes updated configuration (routes, plugins, services) down to connected Data Plane nodes
+**C)** It describes how analytics telemetry flows from the Data Plane to the analytics system
+**D)** It refers to the replication of gateway logs across multiple regions
+
+**Answer: B**
+*Configuration propagation is how changes made in the Control Plane (via UI, API, decK, or Terraform) reach the Data Plane nodes that enforce those changes in traffic.*
+
+---
+
+## Q15. Which scenario best illustrates the value of CP/DP separation for enterprise resilience?
+
+**A)** A team uses Terraform to provision a new gateway instance
+**B)** A Control Plane undergoes maintenance; during this time Data Planes continue serving live traffic without interruption using their cached configuration
+**C)** A Data Plane is upgraded to a new Kong version without restarting
+**D)** A new plugin is added to the gateway configuration using decK
+
+**Answer: B**
+*CP/DP separation means management-plane availability is decoupled from traffic-plane availability. Control Plane downtime doesn't mean customer-facing downtime.*
+
+---
+
+## Q16. How does decK differ from the Konnect API as an automation tool?
+
+**A)** decK is a visual UI tool; the Konnect API is a command-line tool
+**B)** decK operates declaratively against YAML state files, reconciling differences automatically; the Konnect API is an imperative REST interface used programmatically for custom integrations and automation scripts
+**C)** decK only works for creating objects; the Konnect API only works for deleting objects
+**D)** They are identical tools with different names
+
+**Answer: B**
+*decK = declarative, YAML-driven, Git-friendly (desired state). Konnect API = imperative, REST-based, flexible for custom tooling. Both automate configuration but with different paradigms.*
+
+---
+
+## Q17. Why would an organization choose Terraform over decK for managing Konnect configuration?
+
+**A)** Terraform supports more Kong plugins than decK
+**B)** When the team wants to manage Konnect resources as part of a broader infrastructure-as-code workflow that also provisions cloud resources (VMs, networks, databases) in the same plan
+**C)** Terraform is faster than decK for small configuration changes
+**D)** Terraform bypasses the Control Plane, making it more reliable
+
+**Answer: B**
+*Terraform is the right tool when API gateway config is part of a larger IaC picture — provisioning the gateway infrastructure AND configuring it in the same workflow.*
+
+---
+
+## Q18. A team needs to integrate Konnect configuration changes into a custom internal deployment pipeline. Which automation tool is best suited for this?
+
+**A)** Kong Operator
+**B)** decK YAML files only
+**C)** Konnect APIs — which provide programmatic REST access to all Konnect resources for custom integration
+**D)** Terraform provider for Konnect
+
+**Answer: C**
+*Konnect APIs are the most flexible option for custom integrations — any language, any pipeline tool, any workflow that can make HTTP requests can use them.*
+
+---
+
+## Q19. Which statement about hybrid mode is TRUE?
+
+**A)** In hybrid mode, both the Control Plane and Data Plane are managed by Kong
+**B)** In hybrid mode, the Control Plane is managed by Konnect (hosted by Kong) while the Data Plane is deployed and operated by the customer in their own infrastructure
+**C)** Hybrid mode requires all Data Plane nodes to be in the same cloud as the Control Plane
+**D)** Hybrid mode does not support plugin enforcement on the Data Plane
+
+**Answer: B**
+*Hybrid mode = Konnect-managed CP + customer-managed DP. The customer controls where and how the data plane runs; Kong manages the control plane.*
+
+---
+
+## Q20. What is the role of Kong Operator specifically in a Kubernetes environment?
+
+**A)** It provides a web UI for managing Kong configuration from inside Kubernetes
+**B)** It is a Kubernetes controller that watches custom resource definitions (CRDs) and automatically reconciles Kong Gateway and Konnect configuration to match the desired state declared in Kubernetes manifests
+**C)** It replaces the Konnect Control Plane for Kubernetes-only deployments
+**D)** It monitors Kong Data Plane health and restarts unhealthy pods
+
+**Answer: B**
+*Kong Operator brings the Kubernetes operator pattern to Kong: define KongService, KongRoute, KongPlugin resources as Kubernetes CRDs, and the operator ensures Kong's configuration matches.*
+
+---
+
+## Q21. In a Konnect deployment, which component should NEVER handle live API traffic?
+
+**A)** Data Plane
+**B)** Control Plane
+**C)** Kong Gateway node
+**D)** Sidecar proxy
+
+**Answer: B**
+*The Control Plane is exclusively a management plane. It stores and distributes configuration but should never be in the request path for live API traffic.*
+
+---
+
+## Q22. Which of the following best describes the relationship between a Control Plane and multiple Data Planes?
+
+**A)** Each Data Plane has its own independent Control Plane
+**B)** A single Control Plane can manage multiple Data Plane nodes across different environments, all receiving the same configuration
+**C)** Data Planes are only connected to a Control Plane during initial setup
+**D)** Multiple Control Planes are required to manage Data Planes in different cloud regions
+
+**Answer: B**
+*One CP → many DPs. This is the hub-and-spoke model that makes centralized management of geographically distributed gateway nodes possible.*
+
+---
+
+## Q23. What distinguishes a "serverless" gateway deployment from a hybrid deployment in Konnect?
+
+**A)** Serverless gateways do not support plugin-based policy enforcement
+**B)** Serverless gateways are consumption-based, with no fixed infrastructure to provision or manage; hybrid mode requires customer-managed persistent Data Plane nodes
+**C)** Hybrid mode has no Control Plane; serverless mode always has a dedicated Control Plane
+**D)** Serverless and hybrid are different names for the same deployment model
+
+**Answer: B**
+*Serverless = ephemeral, consumption-priced, zero-infrastructure-ops. Hybrid = persistent DP nodes managed by the customer. Different operational and cost models.*
+
+---
+
+## Q24. What happens when a new route is added to a Konnect Control Plane?
+
+**A)** The new route is immediately active in the Dev Portal
+**B)** The Control Plane stores the new route and propagates the updated configuration to all connected Data Plane nodes, which then start routing matching traffic
+**C)** The Data Plane must be restarted to pick up the new route
+**D)** The new route requires a decK sync before it takes effect
+
+**Answer: B**
+*Configuration changes made on the Control Plane are propagated to Data Planes automatically. There is no restart required — Kong's dynamic configuration system applies changes live.*
+
+---
+
+## Q25. Why is the Konnect architecture described as a "hub-and-spoke" model?
+
+**A)** Because the Dev Portal is at the center with gateways as spokes
+**B)** Because the Control Plane (hub) is the central configuration authority, and multiple Data Plane nodes (spokes) receive configuration from and report to it
+**C)** Because analytics data flows from multiple sources to a single dashboard hub
+**D)** Because multiple organizations connect to a single shared gateway hub
+
+**Answer: B**
+*Hub = Control Plane (single source of truth). Spokes = Data Plane nodes (distributed execution). Configuration flows out from the hub; telemetry flows back in.*
+
+---
+
+## Q26. A customer needs to run Data Plane nodes in an air-gapped environment with no internet access. Which hosting model supports this?
+
+**A)** Dedicated Cloud Gateways
+**B)** Serverless gateways
+**C)** Hybrid mode — the customer deploys and manages Data Plane nodes in their own network, including air-gapped environments
+**D)** Konnect does not support air-gapped environments
+
+**Answer: C**
+*Hybrid mode is the only model where the customer controls the Data Plane deployment location. Air-gapped environments require the customer to manage DP nodes on their own infrastructure.*
+
+---
+
+## Q27. Which Konnect component would you reference when a customer asks about managing multiple gateway environments (dev, staging, production) from a single interface?
+
+**A)** Service Catalog
+**B)** Gateway Manager — which provides centralized management of multiple Control Planes and their associated Data Planes across all environments
+**C)** Analytics — which aggregates data from all environments
+**D)** Dev Portal — which exposes APIs from all environments in one catalog
+
+**Answer: B**
+*Gateway Manager is the centralized management interface for all Control Planes and Data Planes. It's the single pane of glass for multi-environment gateway operations.*
+
+---
+
+## Q28. What is the consequence of having no automation tooling (no decK, no Terraform, no Konnect API) in a Konnect deployment?
+
+**A)** The gateway will not function without at least one automation tool
+**B)** All configuration must be made manually through the Konnect UI, which is not reproducible, not version-controlled, and not suitable for CI/CD pipelines
+**C)** The Control Plane will automatically use its default configuration
+**D)** Analytics data will not be collected without automation tooling
+
+**Answer: B**
+*Without automation tooling, teams lose GitOps, reproducibility, and pipeline integration. Manual UI changes are error-prone and cannot be reviewed, version-controlled, or automated.*
+
+---
+
+## Q29. Which statement about decK and its relationship to the Control Plane is TRUE?
+
+**A)** decK communicates directly with Data Plane nodes to push configuration
+**B)** decK reads desired state from YAML files and syncs it to the Konnect Control Plane via the Admin API, with the Control Plane then propagating changes to Data Planes
+**C)** decK replaces the Control Plane for declarative deployments
+**D)** decK only works in offline/air-gapped mode
+
+**Answer: B**
+*decK targets the Control Plane (via API), not the Data Plane directly. The flow is: decK YAML → Control Plane API → Control Plane → Data Plane.*
+
+---
+
+## Q30. An architect is comparing deployment models. The customer wants Kong to manage all gateway infrastructure but still wants a dedicated, isolated gateway (not shared with other customers). Which model fits?
+
+**A)** Hybrid mode with customer-managed data planes
+**B)** Serverless gateway with auto-scaling
+**C)** Dedicated Cloud Gateways — fully managed by Kong with infrastructure dedicated to the customer, not shared
+**D)** Self-hosted on-premises deployment
+
+**Answer: C**
+*Dedicated Cloud Gateways = fully managed by Kong + isolated to the customer (not multi-tenant shared infrastructure). Best of both worlds: no ops burden + dedicated resources.*

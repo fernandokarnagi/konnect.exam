@@ -145,3 +145,219 @@
 
 **Answer: C**
 *This is a key differentiator: Service Catalog is not limited to Kong-managed services. It is a universal inventory — any service can be registered, regardless of how it is deployed or managed.*
+
+---
+
+## Q13. What is an "API scorecard" in the Service Catalog context, and what does a high score indicate?
+
+**A)** A scorecard measures API throughput and latency at runtime
+**B)** A scorecard is a governance assessment that measures how well an API service meets defined best-practice criteria (documentation, security, versioning, SLA definitions); a high score indicates strong compliance with organizational standards
+**C)** A scorecard is a developer rating system for APIs in the Dev Portal
+**D)** Scorecards measure the number of active consumers registered against an API
+
+**Answer: B**
+*Scorecards = governance metrics. High score = the service meets quality standards (well-documented, secured, SLA-defined). Low score = gaps to address before the service is production-ready.*
+
+---
+
+## Q14. How does Service Catalog help reduce the risk of "shadow APIs" — APIs deployed by teams without central visibility?
+
+**A)** By blocking API deployments that are not registered in the catalog
+**B)** By providing a central registration mechanism and discovery surface, the catalog encourages all teams to register their services — giving the platform team visibility even into informally managed APIs
+**C)** By automatically scanning all network traffic and detecting unregistered services
+**D)** Shadow APIs are not a concern because Kong Gateway blocks all unregistered traffic
+
+**Answer: B**
+*Catalog reduces shadow API risk through visibility incentives: teams register their services to gain catalog benefits (discoverability, scorecards, integrations) — driving organic adoption of central governance.*
+
+---
+
+## Q15. In which scenario would Service Catalog be MORE appropriate than Analytics?
+
+**A)** A team wants to monitor 5xx error rates for production APIs
+**B)** A platform architect wants to identify which team owns a specific service and whether it has documented its API, SLAs, and security policies
+**C)** An operations team wants to create a custom dashboard for tracking API latency
+**D)** A DevOps team wants to set up alerts for traffic spikes
+
+**Answer: B**
+*Ownership, documentation status, and governance compliance = Service Catalog. Traffic metrics, errors, and latency dashboards = Analytics.*
+
+---
+
+## Q16. What is the benefit of the GitHub integration in Service Catalog?
+
+**A)** It allows the catalog to automatically deploy code to services
+**B)** It links a catalog service entry to its source code repository — enabling engineers to quickly navigate from a service's catalog entry to its code, recent commits, and pull requests
+**C)** It triggers CI/CD pipelines when catalog entries are updated
+**D)** It automatically generates API documentation from GitHub README files
+
+**Answer: B**
+*GitHub integration connects "this service in the catalog" to "this repo in GitHub" — so engineers responding to incidents or reviewing service quality can immediately access the source code context.*
+
+---
+
+## Q17. What is the benefit of the PagerDuty integration in Service Catalog?
+
+**A)** PagerDuty integration automatically resolves incidents based on catalog scorecard improvements
+**B)** It surfaces active incidents and on-call information for a service directly in its catalog entry — so engineers investigating issues can immediately see whether there is an active incident and who is on-call
+**C)** It creates PagerDuty incidents automatically when scorecard scores drop below a threshold
+**D)** PagerDuty integration is used to schedule planned maintenance windows visible in the catalog
+
+**Answer: B**
+*PagerDuty integration = incident context in the catalog. "Is this service currently experiencing an incident? Who do I contact?" — answered without leaving the catalog.*
+
+---
+
+## Q18. How do Service Catalog governance criteria differ from Kong Gateway plugin policies?
+
+**A)** They are the same — governance criteria are enforced as Kong plugins at runtime
+**B)** Governance criteria in the catalog are advisory assessments (documenting whether a service meets standards); gateway plugin policies are actively enforced at runtime (blocking or transforming requests)
+**C)** Governance criteria are enforced at deploy time; gateway plugins are enforced at runtime
+**D)** They differ only in where they are configured — catalog criteria in YAML, gateway plugins in the UI
+
+**Answer: B**
+*Important distinction: catalog governance = visibility and reporting (are standards met?). Gateway plugins = active enforcement (block the request if the rule is violated).*
+
+---
+
+## Q19. A company has 200 microservices. Some are managed by Kong Gateway, some use other proxies, and some have no gateway at all. Which Konnect component is the right tool to inventory all 200 services?
+
+**A)** API Gateway — by creating gateway services for each
+**B)** Dev Portal — by publishing all services as APIs
+**C)** Service Catalog — which is designed to track all technical assets regardless of how they are managed
+**D)** Analytics — by aggregating traffic data from all services
+
+**Answer: C**
+*Service Catalog is explicitly for all technical assets — not just Kong-managed ones. This is its key differentiator. Register all 200 services regardless of their proxy or management tooling.*
+
+---
+
+## Q20. Which of the following BEST describes the relationship between scorecards and service ownership in Service Catalog?
+
+**A)** Scorecards automatically assign ownership to services based on commit history
+**B)** Scorecards provide objective, consistent governance metrics; service ownership records who is accountable for addressing scorecard gaps — together they create accountability for service quality
+**C)** Service ownership is determined by scorecard score — the team with the highest score owns the service
+**D)** Scorecards and ownership are independent features with no relationship
+
+**Answer: B**
+*Scorecards show gaps; ownership shows who to hold accountable. The combination creates an actionable governance model: we know what's wrong AND who needs to fix it.*
+
+---
+
+## Q21. What does the Datadog integration in Service Catalog enable?
+
+**A)** It replaces Konnect Analytics for services tracked in the catalog
+**B)** It surfaces Datadog monitoring data (metrics, APM traces, dashboards) directly within a service's catalog entry — providing operational health context alongside governance data
+**C)** It automatically configures Datadog monitors for new services added to the catalog
+**D)** It exports catalog data to Datadog for compliance reporting
+
+**Answer: B**
+*Datadog integration brings monitoring context into the catalog view. Engineers see "is this service healthy right now?" alongside "does it meet governance standards?" — in one place.*
+
+---
+
+## Q22. Which governance criterion would MOST likely appear on a service scorecard?
+
+**A)** The number of active consumers registered in the Dev Portal
+**B)** Whether the service has a documented OpenAPI specification with accurate endpoint descriptions, request/response schemas, and error codes
+**C)** The geographic region where the service is deployed
+**D)** The number of Kong plugins applied to the service's gateway route
+
+**Answer: B**
+*API documentation quality is a classic governance criterion. Scorecards check whether documentation exists, is accurate, and covers all endpoints — a foundational API quality standard.*
+
+---
+
+## Q23. How does Service Catalog support large organizations with many teams and hundreds of services?
+
+**A)** By limiting each team to a maximum number of services
+**B)** By providing a searchable, filterable catalog with ownership metadata, team attribution, governance scores, and integrated context — making it feasible to manage and discover hundreds of services without direct knowledge of each team's work
+**C)** By automatically merging services that have identical functionality
+**D)** By requiring teams to consolidate services before they can be cataloged
+
+**Answer: B**
+*At scale, discoverability and searchability are critical. Catalog's search, filtering, ownership metadata, and scorecards make navigating 200+ services manageable for any engineer.*
+
+---
+
+## Q24. What is the Slack integration in Service Catalog used for?
+
+**A)** It allows engineers to manage catalog entries through Slack commands
+**B)** It links a service's catalog entry to the relevant Slack channels — so engineers can immediately reach the service's team or monitoring alerts channel during incident response
+**C)** It sends automatic scorecard reports to team Slack channels weekly
+**D)** It creates Slack alerts when new services are added to the catalog
+
+**Answer: B**
+*Slack integration = communication context. "Who do I ping when this service is broken?" — the catalog entry links directly to the team's Slack channel.*
+
+---
+
+## Q25. Which Konnect component would a compliance team use to generate a report on which APIs have security policies defined?
+
+**A)** Analytics — for traffic-based security event reporting
+**B)** Service Catalog with scorecards — which track security governance criteria (e.g., authentication required, encryption enforced) per service
+**C)** Dev Portal — for visible API security documentation
+**D)** Gateway Manager — for plugin configuration exports
+
+**Answer: B**
+*Compliance reporting on security standards = scorecards. The catalog tracks whether each service meets security governance criteria, enabling compliance teams to identify and prioritize gaps.*
+
+---
+
+## Q26. How does Service Catalog help with incident response compared to having no catalog?
+
+**A)** The catalog automatically creates incidents in PagerDuty when anomalies are detected
+**B)** Without a catalog, engineers must ask around to find service owners, locate repositories, and identify monitoring dashboards. The catalog provides all this context immediately — reducing MTTR (mean time to resolution)
+**C)** The catalog automatically resolves incidents by rolling back recent changes
+**D)** The catalog provides real-time traffic data that helps diagnose incidents faster
+
+**Answer: B**
+*MTTR reduction is a key catalog benefit. Instead of spending time finding ownership, code, and monitoring during an incident, engineers have all context in the catalog entry.*
+
+---
+
+## Q27. What is the significance of Service Catalog supporting "non-Kong-managed" services?
+
+**A)** It means the catalog can replace any API gateway for non-Kong services
+**B)** It means the catalog has universal applicability — an organization does not need to migrate all services to Kong to gain governance and visibility benefits from the catalog
+**C)** Non-Kong services receive limited catalog features compared to Kong-managed services
+**D)** Non-Kong services can only be viewed in the catalog, not governed
+
+**Answer: B**
+*Universal scope is the catalog's differentiating value. You don't need 100% Kong adoption to benefit. Register your legacy services, partner APIs, and third-party integrations — governance applies everywhere.*
+
+---
+
+## Q28. A team is onboarding a new service and wants to ensure it meets organizational API standards before going to production. Which Service Catalog feature should they use?
+
+**A)** Dev Portal — publish the API early for developer feedback
+**B)** Analytics — monitor the new service's traffic patterns during staging
+**C)** Scorecards — register the service in the catalog and use scorecard criteria to verify documentation, security, SLA definitions, and best-practice compliance before production
+**D)** Gateway Manager — run load tests against the new service
+
+**Answer: C**
+*Scorecards as pre-production gates: the team registers the service, checks the scorecard against governance criteria, and addresses gaps before promoting to production.*
+
+---
+
+## Q29. How does the Service Catalog complement Kong Gateway in a full Konnect deployment?
+
+**A)** Service Catalog replaces Gateway Manager for service configuration
+**B)** Kong Gateway enforces policies at runtime for API traffic; Service Catalog provides governance, discoverability, and ownership tracking for those same services — and for services beyond Kong's scope
+**C)** They are competing products that serve the same purpose
+**D)** Service Catalog configures Kong Gateway automatically based on catalog metadata
+
+**Answer: B**
+*Gateway = runtime policy enforcement. Catalog = organizational knowledge and governance. Complementary: Gateway keeps traffic safe; Catalog keeps teams informed and accountable.*
+
+---
+
+## Q30. Which of the following scenarios would the Service Catalog LEAST address?
+
+**A)** Identifying which team owns a microservice that is causing production errors
+**B)** Tracking whether all services have documented their API contracts
+**C)** Detecting a spike in 5xx errors on a specific API route in real time
+**D)** Assessing the governance maturity of 150 services using automated scorecard criteria
+
+**Answer: C**
+*Real-time traffic monitoring (5xx error spikes) = Analytics. The Service Catalog is a governance and inventory tool, not a real-time monitoring tool.*

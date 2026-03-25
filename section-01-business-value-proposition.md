@@ -145,3 +145,219 @@
 
 **Answer: B**
 *Reducing complexity comes from consolidating management and governance into one place — unified API management paired with single-control-plane visibility.*
+
+---
+
+## Q13. Which Konnect capability most directly helps an organization avoid vendor lock-in when managing APIs across multiple clouds?
+
+**A)** SSO integration with corporate identity providers
+**B)** A provider-agnostic platform that can manage gateways on any cloud or on-premises environment
+**C)** Advanced analytics dashboards scoped per environment
+**D)** Customer-managed encryption keys
+
+**Answer: B**
+*Avoiding vendor lock-in at the API management layer means the platform must work across any cloud or infrastructure. Konnect's hybrid and multi-cloud model achieves this.*
+
+---
+
+## Q14. An enterprise has separate teams in different business units, each requiring isolated API environments. Which Konnect value proposition directly addresses this need?
+
+**A)** Lower TCO through built-in analytics
+**B)** Flexible hosting with Dedicated Cloud Gateways
+**C)** Unified API management with organizational isolation via organizations, teams, and roles
+**D)** Hybrid mode for on-premises deployments
+
+**Answer: C**
+*Unified API management with organizations and RBAC provides the isolation model: separate environments, permissions, and visibility per business unit — all under one platform.*
+
+---
+
+## Q15. How does Konnect's self-service model contribute to lower TCO?
+
+**A)** It removes the need to purchase cloud infrastructure
+**B)** It enables developers to consume APIs independently without waiting for platform team intervention, reducing operational overhead and time-to-market costs
+**C)** It replaces the need for any authentication or security plugins
+**D)** It automatically patches gateway instances without downtime
+
+**Answer: B**
+*Self-service (through Dev Portal) reduces the burden on the platform team. When developers can discover, test, and subscribe to APIs independently, fewer manual tasks and fewer support tickets.*
+
+---
+
+## Q16. A regulated financial institution needs to ensure API call data never leaves their sovereign cloud region. Which value proposition is most relevant?
+
+**A)** Unified API management
+**B)** Advanced analytics for insights
+**C)** Flexible hosting combined with enterprise-grade security (geo selection and CMEK)
+**D)** Lower TCO through reduced tooling overhead
+
+**Answer: C**
+*Data sovereignty requires control over where data is processed and stored. Flexible hosting (run DP in your region) + CMEK (you control encryption keys) + geo selection addresses this directly.*
+
+---
+
+## Q17. Which of the following best describes the "enterprise-grade security" value theme in Konnect?
+
+**A)** High-speed packet inspection at the network layer
+**B)** A comprehensive set of controls including RBAC, SSO, audit logging, secrets management, and encryption key control that meet enterprise compliance requirements
+**C)** Built-in DDoS protection for all gateway endpoints
+**D)** Automatic vulnerability scanning of backend APIs
+
+**Answer: B**
+*Enterprise security in Konnect means the platform offers controls that compliance and security teams require: identity federation, access control, audit accountability, and encryption sovereignty.*
+
+---
+
+## Q18. A company is evaluating Konnect versus building their own API management toolchain. Which value proposition most directly counters the "build it yourself" argument?
+
+**A)** Flexible hosting options
+**B)** Lower TCO — Konnect provides built-in analytics, Dev Portal, and gateway management, eliminating the cost of building and integrating these capabilities separately
+**C)** Provider-agnostic AI traffic management
+**D)** East-west traffic encryption with mTLS
+
+**Answer: B**
+*The TCO argument is strongest against DIY: building and maintaining a gateway, portal, analytics stack, and management plane in-house is far more expensive than a managed platform.*
+
+---
+
+## Q19. Which hosting option in the Konnect portfolio requires the LEAST operational effort from the customer's team?
+
+**A)** Self-hosted hybrid mode with on-premises data planes
+**B)** Kong Gateway deployed on bare metal
+**C)** Dedicated Cloud Gateways — fully managed by Kong, with no data plane infrastructure to operate
+**D)** Serverless functions with a custom Kong plugin layer
+
+**Answer: C**
+*Dedicated Cloud Gateways offload all infrastructure management to Kong. The customer team focuses purely on API configuration, not on patching, scaling, or operating gateway nodes.*
+
+---
+
+## Q20. How does Konnect's analytics capability provide value to both platform teams and business stakeholders?
+
+**A)** Platform teams use it for developer portal customization; business stakeholders use it for route configuration
+**B)** Platform teams use it for error monitoring and operational insights; business stakeholders use it for API adoption trends and product decision-making
+**C)** Both groups use it only for 5xx error tracking
+**D)** Analytics is only relevant to platform teams; it has no business stakeholder value
+
+**Answer: B**
+*Analytics serves two audiences: ops/platform teams (is my gateway healthy?) and business leaders (which APIs are growing? what is the usage pattern? are SLAs met?).*
+
+---
+
+## Q21. Which statement best explains why Konnect's value proposition is stronger for large enterprises than for small startups?
+
+**A)** Konnect only supports enterprise-scale traffic volumes
+**B)** Large enterprises have more governance, compliance, multi-cloud, and team isolation requirements that map directly to Konnect's key value themes
+**C)** Small startups cannot afford the TCO of Konnect
+**D)** Konnect's Dev Portal is only useful for organizations with more than 100 APIs
+
+**Answer: B**
+*Konnect's strongest value themes (governance, compliance, multi-cloud, RBAC, CMEK) are most relevant to organizations with complex infrastructure, regulatory requirements, and large teams.*
+
+---
+
+## Q22. A platform architect asks: "How does Konnect help us move faster without sacrificing control?" Which value propositions directly answer this?
+
+**A)** mTLS and MeshTrafficPermission
+**B)** Self-service (Dev Portal for developer agility) + centralized control plane (governance and visibility for platform teams)
+**C)** Rate limiting and load balancing
+**D)** Semantic caching and prompt guard
+
+**Answer: B**
+*Speed comes from developer self-service. Control comes from the centralized management plane. Konnect enables both simultaneously — a key architectural selling point.*
+
+---
+
+## Q23. Which statement about the "lower TCO" value theme is most accurate?
+
+**A)** Konnect eliminates all cloud infrastructure costs
+**B)** Konnect reduces TCO by consolidating multiple tools (gateway management, developer portal, analytics, security) into one platform, lowering integration, licensing, and maintenance costs
+**C)** Konnect's TCO benefit only applies when using Dedicated Cloud Gateways
+**D)** Lower TCO is achieved by automatically reducing the number of API calls
+
+**Answer: B**
+*TCO reduction is about platform consolidation: instead of paying for and maintaining separate gateway, portal, analytics, and security tools, Konnect provides them together.*
+
+---
+
+## Q24. A prospect says: "We need to stay cloud-agnostic but still have a single pane of glass for all our API management." Which Konnect value proposition is the direct answer?
+
+**A)** Enterprise-grade security and compliance
+**B)** Lower TCO through reduced tooling
+**C)** Hybrid and multi-cloud management via a unified control plane
+**D)** Flexible hosting with Dedicated Cloud Gateways
+
+**Answer: C**
+*Cloud-agnostic + single pane of glass = hybrid and multi-cloud management. The control plane is the "single pane of glass"; hybrid mode enables any-cloud data planes.*
+
+---
+
+## Q25. How does Konnect support an organization's shift-left API governance strategy?
+
+**A)** By enforcing security policies only at runtime when traffic is received
+**B)** By enabling governance policies, scorecards, and service catalog tracking that surface API quality and compliance issues early in the development lifecycle
+**C)** By generating API code automatically during the design phase
+**D)** By blocking all API deployments until a security review is manually approved
+
+**Answer: B**
+*Shift-left governance means catching issues early. Konnect's Service Catalog with scorecards and governance criteria surfaces compliance gaps before APIs reach production.*
+
+---
+
+## Q26. Which combination of value propositions would you lead with for a customer who is a global bank with operations in 12 countries?
+
+**A)** Flexible hosting and lower TCO
+**B)** Enterprise-grade security, compliance (geo selection, CMEK, RBAC, audit logs), and hybrid/multi-cloud management
+**C)** Advanced analytics and AI Gateway
+**D)** Dev Portal self-service and Service Catalog
+
+**Answer: B**
+*Global regulated industries lead with compliance and security: data residency (geo), encryption control (CMEK), access control (RBAC), accountability (audit logs), and multi-region operations.*
+
+---
+
+## Q27. What is the business significance of Konnect supporting "serverless" as a hosting option?
+
+**A)** It means the gateway does not require any configuration
+**B)** It allows organizations to run gateway capacity without provisioning or managing server infrastructure, paying only for actual usage — reducing fixed infrastructure costs
+**C)** It means the Control Plane runs without any dedicated servers
+**D)** Serverless gateways do not support plugin-based policy enforcement
+
+**Answer: B**
+*Serverless hosting = consumption-based, zero-infrastructure-management. For bursty or unpredictable traffic patterns, this model can significantly reduce idle infrastructure costs.*
+
+---
+
+## Q28. How does Konnect's unified platform approach help reduce API sprawl in large organizations?
+
+**A)** By limiting the number of APIs each team can publish
+**B)** By providing Service Catalog as a centralized inventory plus governance tools, making all APIs discoverable and subject to consistent standards rather than siloed per team
+**C)** By automatically deprecating unused APIs after 30 days
+**D)** By enforcing a single API standard (REST only) across all services
+
+**Answer: B**
+*API sprawl = APIs built independently with no visibility or consistency. Konnect's catalog + governance closes the visibility gap and applies consistent standards across all teams.*
+
+---
+
+## Q29. A customer's CISO asks: "How do we know who did what in Konnect?" Which value theme and specific feature directly answer this?
+
+**A)** Lower TCO through reduced tooling
+**B)** Enterprise-grade security — specifically audit logs that record user actions, configuration changes, and administrative events for accountability and compliance
+**C)** Hybrid and multi-cloud management
+**D)** Advanced Analytics traffic dashboards
+
+**Answer: B**
+*"Who did what" = audit logging. Audit logs are a core enterprise security feature in Konnect, capturing who made changes, what was changed, and when — essential for compliance audits.*
+
+---
+
+## Q30. Which of the following scenarios would LEAST benefit from Konnect's business value propositions?
+
+**A)** A multinational enterprise with gateways across AWS, Azure, and on-prem data centers
+**B)** A startup building its first internal microservice with no API consumers yet
+**C)** A financial institution requiring strict data residency and audit trails
+**D)** A platform team managing APIs for hundreds of developer teams
+
+**Answer: B**
+*A single-service startup with no external consumers or compliance requirements has minimal need for unified management, multi-cloud control, Dev Portal self-service, or enterprise governance.*

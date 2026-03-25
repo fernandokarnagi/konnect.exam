@@ -145,3 +145,219 @@
 
 **Answer: B**
 *decK is a declarative configuration tool — it takes a YAML file as the desired state and applies (syncs) it to Kong/Konnect, adding, updating, or removing objects as needed.*
+
+---
+
+## Q13. What is a Kong "upstream" in the context of load balancing?
+
+**A)** The Control Plane that manages the gateway configuration
+**B)** A named pool of backend service targets that the gateway distributes traffic across using a configured load balancing algorithm
+**C)** A plugin that handles upstream authentication
+**D)** The network port on which the gateway receives client requests
+
+**Answer: B**
+*An upstream defines the backend pool. It contains one or more targets (host:port) and a load balancing algorithm (round-robin, least-connections, etc.).*
+
+---
+
+## Q14. Which Kong plugin category is responsible for controlling how many requests a consumer or IP can make within a time window?
+
+**A)** Authentication plugins (e.g., JWT, API key)
+**B)** Transformation plugins (e.g., request-transformer)
+**C)** Traffic control plugins (e.g., Rate Limiting, Rate Limiting Advanced)
+**D)** Logging plugins (e.g., HTTP Log, File Log)
+
+**Answer: C**
+*Rate Limiting falls under traffic control. It enforces quotas on request frequency — protecting upstreams from overload and ensuring fair usage across consumers.*
+
+---
+
+## Q15. Why are audit logs important for the Admin API?
+
+**A)** They improve gateway performance by caching configuration reads
+**B)** They record all configuration changes made through the Admin API, providing an accountability trail for compliance and incident investigation
+**C)** They replace the need for encryption on Admin API traffic
+**D)** They are used to replay configuration changes during Data Plane disconnects
+
+**Answer: B**
+*Audit logs answer "who changed what, when." For the Admin API specifically, this is critical because changes there affect all traffic flowing through the gateway.*
+
+---
+
+## Q16. What is the primary difference between Kong Gateway's traditional routing and the expressions router?
+
+**A)** Traditional routing supports HTTPS; expressions router only supports HTTP
+**B)** Traditional routing matches on path and method using simple string patterns; the expressions router uses a DSL that allows complex boolean logic combining any request attribute
+**C)** The expressions router is only available in hybrid mode
+**D)** Traditional routing is faster but supports fewer upstream targets
+
+**Answer: B**
+*Traditional router: simple path/method matching. Expressions router: a DSL enabling `(http.path starts_with "/api") && (http.headers["X-Version"] == "v2")` style rules.*
+
+---
+
+## Q17. A development team wants all requests to `/internal/*` routes to bypass rate limiting but all requests to `/public/*` routes to be rate-limited. How should they configure this in Kong?
+
+**A)** Apply rate limiting globally and use the expressions router to exclude `/internal/*` routes
+**B)** Apply rate limiting at the service level for the public service; do not apply it to the internal service or routes
+**C)** Apply rate limiting as a route-level plugin only to routes matching `/public/*`, leaving `/internal/*` routes without the plugin
+**D)** Rate limiting cannot be selectively applied — it is always global
+
+**Answer: C**
+*Route-level plugin scoping allows different policies on different routes. Apply rate limiting only to the `/public/*` routes; the `/internal/*` routes remain unrestricted.*
+
+---
+
+## Q18. How does Kong Gateway implement health checks for upstream targets?
+
+**A)** Health checks are not supported — unhealthy targets must be removed manually
+**B)** Kong supports passive health checks (based on response codes from proxied traffic) and active health checks (Kong probes targets periodically), automatically removing or re-adding targets based on health status
+**C)** Health checks are performed by the Control Plane and results are pushed to the Data Plane
+**D)** Health checks require a dedicated monitoring plugin installed on each upstream target
+
+**Answer: B**
+*Kong supports both active (probe-based) and passive (traffic-based) health checks. Unhealthy targets are automatically removed from the load balancing pool and restored when healthy again.*
+
+---
+
+## Q19. What does the term "consumer" mean in Kong Gateway?
+
+**A)** Any upstream service that consumes data from Kong
+**B)** A representation of an API client (user, application, or service) that can be authenticated, rate-limited, and tracked independently within Kong
+**C)** A Data Plane node that consumes configuration from the Control Plane
+**D)** An analytics record representing an API call
+
+**Answer: B**
+*A consumer in Kong is an entity with credentials (API key, JWT, OAuth token) that Kong can identify, authenticate, and apply consumer-specific policies to.*
+
+---
+
+## Q20. Which of the following best describes how Kong Gateway handles a request when multiple plugins are applied to a route?
+
+**A)** Only the first plugin in the list is executed; others are ignored
+**B)** All applicable plugins execute in a defined priority order based on their phase (access, header_filter, body_filter, log), allowing complex multi-step policy enforcement
+**C)** Plugins execute in parallel simultaneously to reduce latency
+**D)** Plugin execution order is random and cannot be controlled
+
+**Answer: B**
+*Kong's plugin system executes plugins in priority order across lifecycle phases. This allows chaining: authentication first, then rate limiting, then transformations, then logging.*
+
+---
+
+## Q21. What is the purpose of Kong Gateway's "service" object?
+
+**A)** It represents a consumer application that calls the API
+**B)** It is an abstraction for an upstream API or microservice — defining the protocol, host, port, and path that Kong uses when forwarding requests
+**C)** It is a grouping of routes with shared configuration
+**D)** It stores the credentials used by Kong to authenticate to upstream services
+
+**Answer: B**
+*A Service in Kong represents the upstream backend. A Route points to a Service; the Service defines where and how Kong forwards the request (host, port, path, protocol).*
+
+---
+
+## Q22. Why should the Admin API port be bound only to a loopback or internal network interface rather than a public interface?
+
+**A)** Because public interfaces have lower bandwidth, slowing down configuration changes
+**B)** Because binding to a public interface exposes the full gateway configuration management capability to potential attackers on the internet
+**C)** Because the Admin API only functions correctly on loopback interfaces
+**D)** Because the proxy_listen port requires the Admin API port to be private
+
+**Answer: B**
+*The Admin API has no built-in authentication by default in some configurations. Exposing it on a public interface means anyone who can reach it can read or modify all gateway configuration.*
+
+---
+
+## Q23. What is the difference between a "route" and a "service" in Kong's data model?
+
+**A)** Routes store upstream connection details; services store request matching rules
+**B)** A route defines the rules for matching incoming requests (path, method, headers, host); a service defines the upstream backend that matching requests are forwarded to
+**C)** They are the same object with different names in different Kong versions
+**D)** Services are configured in decK; routes are configured in the Konnect UI only
+
+**Answer: B**
+*Route = what incoming request looks like (matching rules). Service = where the request goes (upstream definition). A service can have many routes.*
+
+---
+
+## Q24. How does Kong Gateway support canary deployments or A/B testing?
+
+**A)** Kong does not support traffic splitting natively
+**B)** By using multiple upstream targets with weighted load balancing, or by configuring multiple services with traffic-weight plugins to split traffic between versions
+**C)** By creating separate Data Planes for each version
+**D)** By using the expressions router to permanently route all traffic to a single version
+
+**Answer: B**
+*Weighted upstream targets allow Kong to send X% of traffic to v1 and Y% to v2. This is the foundation of canary deployments and gradual rollouts at the gateway layer.*
+
+---
+
+## Q25. Which Kong plugin would be appropriate for adding authentication to an API using industry-standard tokens with expiry and signing?
+
+**A)** Basic Authentication plugin
+**B)** IP Restriction plugin
+**C)** JWT (JSON Web Token) plugin
+**D)** Request Termination plugin
+
+**Answer: C**
+*JWT plugin validates JSON Web Tokens — industry-standard signed tokens with expiry. Appropriate for modern OAuth2/OIDC flows and service-to-service authentication.*
+
+---
+
+## Q26. What is "declarative configuration" in the context of Kong Gateway?
+
+**A)** A configuration approach where you write scripts that imperatively create each Kong object via API calls
+**B)** A configuration approach where you define the desired final state of all Kong objects in a file, and a tool (decK or Kong's native declarative config) reconciles the current state to match
+**C)** A method of configuring Kong that only works in Kubernetes environments
+**D)** A Kong feature that automatically generates configuration from API traffic patterns
+
+**Answer: B**
+*Declarative config = desired state in a file. You say "I want these services, routes, plugins" and the tool makes reality match — regardless of what currently exists.*
+
+---
+
+## Q27. Which load balancing algorithm distributes requests by cycling through upstream targets in order?
+
+**A)** Least Connections
+**B)** IP Hash
+**C)** Round Robin
+**D)** Random
+
+**Answer: C**
+*Round-robin sends request 1 to target A, request 2 to target B, request 3 to target C, then cycles back. It's the simplest and most commonly used algorithm.*
+
+---
+
+## Q28. A team has deployed Kong Gateway and finds that occasional upstream failures cause poor user experience. They want Kong to stop sending traffic to failing targets automatically. Which feature enables this?
+
+**A)** Rate limiting with burst configuration
+**B)** Passive health checks — Kong monitors responses from proxied traffic and marks targets as unhealthy when they return too many errors
+**C)** The expressions router with error-based routing rules
+**D)** Declarative configuration with automatic rollback
+
+**Answer: B**
+*Passive health checks monitor live traffic responses. When a target returns too many 5xx errors, Kong automatically removes it from the upstream pool, protecting users from hitting the bad target.*
+
+---
+
+## Q29. What is the recommended approach for securing the Konnect Admin API in a production environment?
+
+**A)** Leave it open but monitor it with analytics
+**B)** Bind it to a private/internal interface only, enable RBAC, use HTTPS, and restrict access with network policies or firewall rules
+**C)** Disable the Admin API entirely and use decK for all changes
+**D)** Use basic authentication with a shared team password
+
+**Answer: B**
+*Production Admin API security: private binding + RBAC + HTTPS + network-level access controls. Multiple layers of defense to prevent unauthorized configuration access.*
+
+---
+
+## Q30. In a GitOps workflow using decK, what typically triggers a decK sync operation?
+
+**A)** Manually logging into the Konnect UI and clicking sync
+**B)** A CI/CD pipeline triggered by a pull request merge to the main branch of the repository containing the Kong configuration YAML files
+**C)** Automatic scheduled polling by decK every 5 minutes
+**D)** A Konnect webhook fired when the Control Plane detects configuration drift
+
+**Answer: B**
+*GitOps with decK: Config YAML lives in Git → PR reviewed and merged → CI/CD pipeline runs `deck sync` → Control Plane updated → Data Planes receive new config.*
