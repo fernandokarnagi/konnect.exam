@@ -361,3 +361,87 @@
 
 **Answer: C**
 *Dedicated Cloud Gateways = fully managed by Kong + isolated to the customer (not multi-tenant shared infrastructure). Best of both worlds: no ops burden + dedicated resources.*
+
+---
+
+## Q31. When configuring a self-managed Data Plane to connect to Konnect in hybrid mode, which Kong configuration role must be set?
+
+**A)** `role = control_plane`
+**B)** `role = traditional`
+**C)** `role = data_plane`
+**D)** `role = hybrid`
+
+**Answer: C**
+*`role = data_plane` tells Kong to operate as a pure proxy with no local database — it receives configuration from the Control Plane via a secure mTLS channel instead.*
+
+---
+
+## Q32. What does the `cluster_control_plane` setting on a Data Plane node specify?
+
+**A)** The IP address of the PostgreSQL database
+**B)** The endpoint of the Konnect Control Plane that the DP connects to for configuration synchronization
+**C)** The address of the Admin API listener
+**D)** The upstream service host
+
+**Answer: B**
+*`cluster_control_plane` is the Konnect CP endpoint (e.g., `<cp-id>.cp0.konghq.com:443`). The DP dials this address over mTLS to receive its configuration stream.*
+
+---
+
+## Q33. What files must be present on a Data Plane node to establish the mTLS channel to the Konnect Control Plane?
+
+**A)** `kong.conf` and a PostgreSQL client certificate
+**B)** A cluster certificate (`cluster.crt`) and cluster private key (`cluster.key`) issued from the Konnect Control Plane
+**C)** A self-signed TLS certificate for the proxy listener
+**D)** The Admin API client certificate
+
+**Answer: B**
+*Konnect issues a unique cluster certificate pair per Control Plane. The DP uses this cert/key for mutual TLS when connecting to the CP — authenticating itself as a legitimate member of that CP's cluster.*
+
+---
+
+## Q34. Where do you obtain the cluster certificate and key needed to connect a new Data Plane to Konnect?
+
+**A)** Generate them locally using `openssl` and upload to Konnect
+**B)** Download them from the Konnect Gateway Manager UI when creating or viewing a Control Plane's DP connection instructions
+**C)** They are automatically injected when the DP starts
+**D)** They are stored in the Kong database
+
+**Answer: B**
+*The Konnect UI (Gateway Manager → Control Plane → Data Plane Nodes → Connect a Data Plane) provides ready-to-use configuration snippets including the cluster cert, key, and `cluster_control_plane` address.*
+
+---
+
+## Q35. Which Konnect Terraform resource provisions a new Control Plane?
+
+**A)** `konnect_gateway_service`
+**B)** `konnect_gateway_control_plane`
+**C)** `konnect_control_plane_group`
+**D)** `kong_gateway_cp`
+
+**Answer: B**
+*The `konnect_gateway_control_plane` Terraform resource (from the `kong/konnect` provider) creates and manages a Konnect Control Plane, including its name, description, and cluster type.*
+
+---
+
+## Q36. What is the primary advantage of using the Konnect Terraform provider alongside decK in a large enterprise deployment?
+
+**A)** Terraform replaces decK entirely — no need for both
+**B)** Terraform manages Konnect infrastructure (control planes, teams, roles, system accounts) while decK manages gateway entities (services, routes, plugins) — each tool operates at its appropriate layer
+**C)** Terraform is faster than decK for syncing gateway configuration
+**D)** Terraform directly pushes to the Data Plane, bypassing the Control Plane
+
+**Answer: B**
+*Terraform = infrastructure layer (CPs, identity, org settings). decK = configuration layer (gateway objects). Using both covers the full IaC stack without either tool overstepping its scope.*
+
+---
+
+## Q37. In a Konnect hybrid deployment, what is the `cluster_server_name` setting used for?
+
+**A)** It sets the hostname the gateway advertises to clients
+**B)** It provides the SNI value used by the Data Plane when establishing the TLS connection to the Control Plane endpoint
+**C)** It names the cluster visible in Kong Manager
+**D)** It configures the upstream service hostname
+
+**Answer: B**
+*`cluster_server_name` sets the TLS SNI for the CP connection, needed when the CP endpoint's certificate CN or SAN must be explicitly specified — common in Konnect where the CP hostname contains the CP ID.*

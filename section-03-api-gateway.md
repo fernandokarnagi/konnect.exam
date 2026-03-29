@@ -361,3 +361,87 @@
 
 **Answer: B**
 *GitOps with decK: Config YAML lives in Git → PR reviewed and merged → CI/CD pipeline runs `deck sync` → Control Plane updated → Data Planes receive new config.*
+
+---
+
+## Q31. What is APIOps, and how does it differ from general DevOps?
+
+**A)** APIOps is a marketing term for API management; it has no technical definition
+**B)** APIOps applies DevOps principles (automation, version control, CI/CD) specifically to the API lifecycle — from design through deployment and governance — treating API configuration as code
+**C)** APIOps refers only to operating the Admin API securely
+**D)** APIOps is the same as GitOps with no distinction
+
+**Answer: B**
+*APIOps = DevOps for APIs. Design-first with OAS, store config in Git, automate deployment via CI/CD (inso + decK), govern with scorecards. Every API change is reviewed, tested, and deployed programmatically.*
+
+---
+
+## Q32. In an APIOps pipeline, what is the role of the `inso generate config` command?
+
+**A)** It generates a random API key for Kong consumers
+**B)** It converts an OpenAPI Specification file into a Kong-compatible decK state file that defines services, routes, and plugins
+**C)** It generates the nginx configuration for the Data Plane
+**D)** It creates a Konnect Control Plane from the OAS
+
+**Answer: B**
+*`inso generate config` reads an OAS file and produces a `kong.yaml` decK state file — with services, routes, and optionally plugins derived from `x-kong-*` OAS extensions. This bridges design and deployment.*
+
+---
+
+## Q33. What is the recommended APIOps pipeline sequence from design to deployed gateway?
+
+**A)** `deck sync` → `inso lint spec` → `inso generate config` → `deck diff`
+**B)** Design OAS in Insomnia → `inso lint spec` → `inso generate config` → `deck validate` → `deck diff` → `deck sync`
+**C)** `deck dump` → Edit YAML → `deck sync` → `inso run test`
+**D)** `inso run test` → Deploy → `deck validate` → `deck sync`
+
+**Answer: B**
+*The full APIOps pipeline: design spec → lint it → generate Kong config → validate the config → diff against live state (review) → sync to deploy. Each stage is a quality gate.*
+
+---
+
+## Q34. Which `x-kong-*` OAS extension would you add to an OpenAPI path operation to attach a rate-limiting plugin via APIOps?
+
+**A)** `x-kong-route-defaults`
+**B)** `x-kong-plugin-rate-limiting`
+**C)** `x-kong-service-name`
+**D)** `x-kong-upstream`
+
+**Answer: B**
+*`x-kong-plugin-<plugin-name>` extensions embed plugin configuration directly in the OAS. `inso generate config` translates them into plugin objects in the generated decK state file.*
+
+---
+
+## Q35. In a multi-environment APIOps pipeline (dev → staging → prod), how does decK's `--select-tag` flag enable environment-specific deployments?
+
+**A)** It filters which Kong plugins execute at runtime
+**B)** It scopes `deck sync` to only manage entities tagged with a specific value — allowing separate pipelines for dev, staging, and prod tags without affecting each other
+**C)** It selects which OAS file to use for config generation
+**D)** It limits which Konnect geo receives the configuration
+
+**Answer: B**
+*Tag-scoped deployments: `deck sync --select-tag env:dev` only touches dev-tagged entities. Staging and prod pipelines use their own tags — preventing cross-environment interference on the same Control Plane.*
+
+---
+
+## Q36. What is the Kong Ingress Controller (KIC), and when would you use it instead of decK?
+
+**A)** KIC is a Kubernetes plugin; use it when decK is unavailable
+**B)** KIC is a Kubernetes controller that watches Kubernetes resources (Ingress, KongPlugin CRDs) and automatically configures Kong — preferred over decK when the team manages Kong configuration entirely through Kubernetes manifests and kubectl
+**C)** KIC replaces the Konnect Control Plane in Kubernetes deployments
+**D)** KIC is a CLI tool equivalent to decK but written in Go
+
+**Answer: B**
+*KIC = Kubernetes-native configuration. Teams express Kong config as Kubernetes resources. Changes to k8s manifests automatically reconcile Kong. Choose KIC when Kubernetes is the source of truth; choose decK for GitOps YAML files.*
+
+---
+
+## Q37. Which `inso` command validates that an OpenAPI spec is structurally correct before using it in an APIOps pipeline?
+
+**A)** `inso run test`
+**B)** `inso generate config`
+**C)** `inso lint spec`
+**D)** `inso export spec`
+
+**Answer: C**
+*`inso lint spec` validates the OAS document against OpenAPI rules without generating anything. It's the first quality gate in an APIOps pipeline — catching spec errors before they propagate to gateway config.*

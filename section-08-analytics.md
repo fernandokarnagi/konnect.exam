@@ -361,3 +361,87 @@
 
 **Answer: C**
 *The telemetry flow: Data Plane generates metrics and logs from proxied traffic → forwards to analytics system → buffered locally during connectivity loss → flushed upon reconnect.*
+
+---
+
+## Q31. Which Kong plugin exposes gateway metrics in Prometheus format for scraping by an external Prometheus server?
+
+**A)** `http-log`
+**B)** `statsd`
+**C)** `prometheus`
+**D)** `datadog`
+
+**Answer: C**
+*The `prometheus` plugin makes Kong metrics (request count, latency, upstream health, consumer usage) available at the `/metrics` endpoint on the Status API port (default 8100), ready for Prometheus scraping.*
+
+---
+
+## Q32. What is the primary use case for the `http-log` plugin in an observability stack?
+
+**A)** To expose metrics for Prometheus scraping
+**B)** To forward full request/response log payloads as HTTP POST calls to an external log aggregator (Splunk, Elastic, custom SIEM)
+**C)** To write logs to the local filesystem
+**D)** To emit StatsD metrics to Graphite
+
+**Answer: B**
+*`http-log` pushes structured JSON logs to any HTTP endpoint — making it the bridge from Kong to external log management platforms (Splunk, Datadog, Elastic, etc.).*
+
+---
+
+## Q33. How does OpenTelemetry (OTel) integration with Kong Gateway extend observability beyond Konnect Analytics?
+
+**A)** OTel replaces Konnect Analytics entirely
+**B)** Kong's OpenTelemetry plugin forwards distributed traces (spans) to an OTel Collector, enabling end-to-end request tracing across Kong and upstream microservices in any OTel-compatible backend (Jaeger, Tempo, Datadog APM)
+**C)** OTel integration is only available with Service Mesh deployments
+**D)** OTel collects only error logs, not request traces
+
+**Answer: B**
+*The `opentelemetry` plugin emits spans that carry trace context across Kong and into upstream services — enabling distributed tracing that follows a request through the entire system, not just the gateway hop.*
+
+---
+
+## Q34. A team wants to alert when P99 latency for a specific API exceeds 500ms for more than 2 minutes. What is the recommended approach with Konnect?
+
+**A)** Configure a `request-termination` plugin to block slow requests
+**B)** Use the `prometheus` plugin to expose latency metrics, then configure alerting rules in Prometheus Alertmanager (or Datadog/Grafana) based on the `kong_latency_bucket` metric
+**C)** Set the Analytics retention period to 2 minutes
+**D)** Enable telemetry buffering for latency data only
+
+**Answer: B**
+*Konnect Analytics provides visualization; external alerting requires exporting metrics. The `prometheus` plugin feeds latency histograms to Prometheus, where Alertmanager rules trigger notifications when SLA thresholds are breached.*
+
+---
+
+## Q35. What does the `statsd` plugin enable that the `prometheus` plugin does not?
+
+**A)** Higher-resolution latency metrics
+**B)** Pushing metrics to a StatsD-compatible server (Graphite, InfluxDB, Telegraf) using a push model, as opposed to Prometheus' pull/scrape model
+**C)** Consumer-level metric tagging
+**D)** Integration with the Konnect Analytics platform
+
+**Answer: B**
+*`statsd` pushes metrics to a StatsD listener. `prometheus` exposes metrics for a scraper to pull. The choice depends on the observability stack: push (statsd) vs. pull (prometheus).*
+
+---
+
+## Q36. How does the `datadog` plugin complement Konnect Analytics?
+
+**A)** It replaces Konnect Analytics for Datadog users
+**B)** It sends Kong request metrics (latency, status codes, consumer tags) to a Datadog Agent via UDP, enriching Datadog dashboards and alerts with gateway-layer data alongside infrastructure and application metrics
+**C)** It pulls analytics data from Konnect and sends it to Datadog
+**D)** It requires a Datadog APM license to function
+
+**Answer: B**
+*The `datadog` plugin emits StatsD-format metrics to a local Datadog Agent. This feeds Datadog's monitoring stack with Kong-specific signals — useful for teams that centralize all observability in Datadog.*
+
+---
+
+## Q37. In a Konnect deployment, which combination provides the most complete observability coverage across the three pillars (metrics, logs, traces)?
+
+**A)** Konnect Analytics alone
+**B)** `prometheus` plugin (metrics) + `http-log` plugin (logs) + `opentelemetry` plugin (traces) — each forwarded to appropriate backends
+**C)** `file-log` plugin (all three pillars)
+**D)** Konnect Analytics + `statsd` plugin
+
+**Answer: B**
+*The three observability pillars require three complementary plugins: metrics via `prometheus`, logs via `http-log` (or `file-log`/`syslog`), and distributed traces via `opentelemetry`. Konnect Analytics covers the metrics/dashboards layer natively.*
